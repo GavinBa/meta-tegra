@@ -9,8 +9,8 @@ DEPENDS += "bc-native dtc-native ${SOC_FAMILY}-flashtools-native"
 
 SRC_REPO ?= "github.com/OE4T/u-boot-tegra.git;protocol=https"
 SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
-SRCBRANCH ?= "patches-v2022.01"
-SRCREV = "894fa67d7f6c3158c08f1670fa75e05764111d42"
+SRCBRANCH ?= "patches-v2020.04-l4t-r32.4.3"
+SRCREV = "649ddf760bf46615460125e7c4e7e7196a46fe07"
 
 PV .= "+g${SRCPV}"
 
@@ -18,13 +18,12 @@ SRC_URI += "\
     file://fw_env.config \
 "
 
-EXTRA_OEMAKE += "DTC=dtc"
-
 PROVIDES += "u-boot"
 
 require u-boot-tegra-bootimg.inc
 
-FILES:${PN}-extlinux += "/boot/initrd"
-ALLOW_EMPTY:${PN}-extlinux = "1"
-RPROVIDES:${PN}-extlinux += "u-boot-extlinux"
-RPROVIDES:${PN} += "u-boot"
+FILES_${PN}-extlinux = "/boot/extlinux /boot/initrd"
+ALLOW_EMPTY_${PN}-extlinux = "1"
+RPROVIDES_${PN}-extlinux += "u-boot-extlinux"
+RPROVIDES_${PN} += "u-boot"
+RDEPENDS_${PN} += "${PN}-extlinux"
